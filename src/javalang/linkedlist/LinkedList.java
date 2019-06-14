@@ -1,5 +1,13 @@
 package javalang.linkedlist;
 
+import com.sun.tools.internal.xjc.util.NullStream;
+import com.sun.xml.internal.xsom.impl.scd.Iterators;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class LinkedList {
 
     private Node head;
@@ -19,6 +27,13 @@ public class LinkedList {
             temp=temp.next;
         }
         temp.next=newNode;
+    }
+
+    public Node getHead(){
+        return head;
+    }
+    public void setHead(Node head){
+        this.head=head;
     }
 
     public void print(){
@@ -43,7 +58,8 @@ public class LinkedList {
         list.add(5);
         list.add(7);
         list.print();
-        list.deleteDups();
+        //list.deleteDups();
+        list.deleteDupsWithHM();
         list.print();
     }
 
@@ -63,14 +79,44 @@ public class LinkedList {
             p1=p1.next;
         }
     }
-}
 
-class Node{
-    public int data;
-    public Node next;
-
-    public Node(int data) {
-        this.data = data;
-        this.next=null;
+    public void deleteDupsWithHM(){
+        Map<Integer, List<Integer>> hash = addToHM();
+        Node p1=null;
+        Node p2 =head;
+        int i=0;
+        while(p2!=null){
+            List<Integer> dupArray = hash.get(p2.data);
+            if(dupArray.size()>1){
+                if(dupArray.contains(i)&&dupArray.get(0)!=i){
+                    p1.next=p2.next;
+                }
+            }
+            p1=p2;
+            p2=p2.next;
+            i++;
+        }
+    }
+    public Map addToHM(){
+        Map<Integer, List<Integer>> hash = new HashMap<>();
+        Node temp = head;
+        int i=0;
+        while(temp!= null){
+            if(hash.containsKey(temp.data)){
+                List<Integer> dataIdx = hash.get(temp.data);
+                dataIdx.add(i);
+                hash.put(temp.data,dataIdx);
+            }else {
+                List<Integer> idx = new ArrayList<>();
+                idx.add(i);
+                hash.put(temp.data,idx);
+            }
+            i++;
+            temp=temp.next;
+        }
+        System.out.println(hash);
+        return hash;
     }
 }
+
+
