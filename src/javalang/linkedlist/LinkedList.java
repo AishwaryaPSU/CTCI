@@ -50,6 +50,20 @@ public class LinkedList {
         System.out.println();
     }
 
+    public void printCLL(){
+        if(head==null){
+            System.out.println("List is empty");
+            return;
+        }
+        Node temp=head;
+        while(temp!=null    ){
+            System.out.print(temp.data+"->");
+            temp=temp.next;
+        }
+        System.out.print("NULL");
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
         for(int i=0;i<5;i++){
